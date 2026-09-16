@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from '@services';
 import { loginUser } from '@slices';
 import { LoginUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, type Location } from 'react-router-dom';
 
 export const Login = (): React.JSX.Element => {
   const [email, setEmail] = useState('');
@@ -10,12 +10,14 @@ export const Login = (): React.JSX.Element => {
   const errorText = useSelector((state) => state.auth.error?.message ?? '');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: Location })?.from?.pathname ?? '/';
 
   const handleSubmit = async (e: SyntheticEvent): Promise<void> => {
     e.preventDefault();
     try {
       await dispatch(loginUser({ email, password })).unwrap();
-      void navigate('/');
+      void navigate(from);
     } catch {
       // ошибка уже сохранена в state.auth.error через rejected
     }
