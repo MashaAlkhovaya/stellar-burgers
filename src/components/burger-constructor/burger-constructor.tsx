@@ -6,7 +6,6 @@ import { useMemo } from 'react';
 import type { TConstructorIngredient } from '@utils-types';
 
 export const BurgerConstructor = (): React.JSX.Element | null => {
-
   const constructorItems = useSelector((state) => state.burgerConstructor);
   const orderRequest = useSelector((state) => state.order.orderRequest);
   const orderModalData = useSelector((state) => state.order.orderModalData);
