@@ -1,25 +1,37 @@
+import { useDispatch, useSelector } from '@services';
+import { registerUser } from '@slices';
 import { RegisterUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = (): React.JSX.Element => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const errorText = useSelector((state) => state.auth.error?.message ?? '');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: SyntheticEvent): void => {
+  const handleSubmit = async (e: SyntheticEvent): Promise<void> => {
     e.preventDefault();
+    try {
+      await dispatch(registerUser({ name: userName, email, password })).unwrap();
+      void navigate('/');
+    } catch {
+      // ошибка уже сохранена в state.auth.error через rejected
+    }
   };
 
   return (
     <RegisterUI
-      errorText=""
+      errorText={errorText}
       email={email}
       userName={userName}
       password={password}
       setEmail={setEmail}
       setPassword={setPassword}
       setUserName={setUserName}
-      handleSubmit={handleSubmit}
+      handleSubmit={(e) => void handleSubmit(e)}
     />
   );
 };
