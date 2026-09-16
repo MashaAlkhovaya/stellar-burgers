@@ -16,7 +16,10 @@ import {
   ProfileOrders,
   NotFound404,
 } from '@pages';
+import { useDispatch, useSelector } from '@services';
+import { fetchIngredients } from '@slices';
 import { Preloader } from '@ui';
+import { useEffect } from 'react';
 import {
   Routes,
   Route,
@@ -32,8 +35,14 @@ import '../../index.css';
 import styles from './app.module.css';
 
 const App = (): React.JSX.Element => {
-  const isIngredientsLoading = false;
-  const ingredientsError = null;
+  const isIngredientsLoading = useSelector((state) => state.ingredients.isLoading);
+  const ingredientsError = useSelector((state) => state.ingredients.error);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    void dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
