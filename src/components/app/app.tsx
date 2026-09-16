@@ -17,7 +17,7 @@ import {
   NotFound404,
 } from '@pages';
 import { useDispatch, useSelector } from '@services';
-import { fetchIngredients } from '@slices';
+import { fetchIngredients, checkUserAuth } from '@slices';
 import { Preloader } from '@ui';
 import { useEffect } from 'react';
 import {
@@ -37,12 +37,18 @@ import styles from './app.module.css';
 const App = (): React.JSX.Element => {
   const isIngredientsLoading = useSelector((state) => state.ingredients.isLoading);
   const ingredientsError = useSelector((state) => state.ingredients.error);
+  const isAuthChecked = useSelector((state) => state.auth.isAuthChecked);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     void dispatch(fetchIngredients());
+    void dispatch(checkUserAuth());
   }, [dispatch]);
+
+  if (!isAuthChecked) {
+    return <Preloader />;
+  }
 
   return (
     <div className={styles.app}>

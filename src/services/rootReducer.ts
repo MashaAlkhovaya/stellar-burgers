@@ -1,5 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
+import authReducer from './slices/auth-slice';
 import burgerConstructorReducer from './slices/burger-constructor-slice';
 import feedReducer from './slices/feed-slice';
 import ingredientsReducer from './slices/ingredients-slice';
@@ -10,4 +11,5 @@ export const rootReducer = combineReducers({
   burgerConstructor: burgerConstructorReducer,
   order: orderReducer,
   feed: feedReducer,
+  auth: authReducer,
 });
