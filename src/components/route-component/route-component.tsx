@@ -18,6 +18,8 @@ import {
   type Location,
 } from 'react-router-dom';
 
+import styles from '../app/app.module.css';
+
 export const RouteComponent = (): React.JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,29 +80,35 @@ export const RouteComponent = (): React.JSX.Element => {
         <Route
           path="/feed/:number"
           element={
-            <Modal title="Детали заказа" onClose={() => void navigate('/')}>
+            <div className={styles.detailPageWrap}>
+              <p className={`${styles.detailHeader} text text_type_main-large`}>
+                Детали заказа
+              </p>
               <OrderInfo />
-            </Modal>
+            </div>
           }
         />
         <Route
           path="/ingredients/:id"
           element={
-            <Modal title="Детали ингредиента" onClose={() => void navigate('/')}>
+            <div className={styles.detailPageWrap}>
+              <p className={`${styles.detailHeader} text text_type_main-large`}>
+                Детали ингредиента
+              </p>
               <IngredientDetails />
-            </Modal>
+            </div>
           }
         />
         <Route
           path="/profile/orders/:number"
           element={
             <ProtectedRoute>
-              <Modal
-                title="Детали заказа"
-                onClose={() => void navigate('/profile/orders')}
-              >
+              <div className={styles.detailPageWrap}>
+                <p className={`${styles.detailHeader} text text_type_main-large`}>
+                  Детали заказа
+                </p>
                 <OrderInfo />
-              </Modal>
+              </div>
             </ProtectedRoute>
           }
         />
