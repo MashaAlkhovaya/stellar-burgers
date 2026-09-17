@@ -5,7 +5,7 @@ import {
   selectOrderRequest,
 } from '@selectors';
 import { useSelector, useDispatch } from '@services';
-import { createOrder, clearOrder, clearConstructor } from '@slices';
+import { createOrder, clearOrder } from '@slices';
 import { BurgerConstructorUI } from '@ui';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,6 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
 
   const closeOrderModal = (): void => {
     dispatch(clearOrder());
-    dispatch(clearConstructor());
   };
 
   const price = useMemo(

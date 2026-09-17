@@ -8,10 +8,10 @@ export const ProfileMenu = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = (): void => {
-    void dispatch(logoutUser());
+  const handleLogout = async (): Promise<void> => {
+    await dispatch(logoutUser());
     void navigate('/login');
   };
 
-  return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
+  return <ProfileMenuUI handleLogout={() => void handleLogout()} pathname={pathname} />;
 };

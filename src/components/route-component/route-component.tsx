@@ -24,6 +24,7 @@ export const RouteComponent = (): React.JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
   const background = (location.state as { background?: Location })?.background;
+  const closeModal = (): void => void navigate(-1);
   return (
     <>
       <Routes location={background ?? location}>
@@ -119,7 +120,7 @@ export const RouteComponent = (): React.JSX.Element => {
           <Route
             path="/feed/:number"
             element={
-              <Modal title="Детали заказа" onClose={() => void navigate(-1)}>
+              <Modal title="Детали заказа" onClose={closeModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -127,7 +128,7 @@ export const RouteComponent = (): React.JSX.Element => {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal title="Детали ингредиента" onClose={() => void navigate(-1)}>
+              <Modal title="Детали ингредиента" onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }
@@ -136,7 +137,7 @@ export const RouteComponent = (): React.JSX.Element => {
             path="/profile/orders/:number"
             element={
               <ProtectedRoute>
-                <Modal title="Детали заказа" onClose={() => void navigate(-1)}>
+                <Modal title="Детали заказа" onClose={closeModal}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
