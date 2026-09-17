@@ -1,3 +1,4 @@
+import { selectIngredients, selectOrderDetails } from '@selectors';
 import { useDispatch, useSelector } from '@services';
 import { fetchOrderByNumber } from '@slices';
 import { Preloader, OrderInfoUI } from '@ui';
@@ -10,8 +11,8 @@ export const OrderInfo = (): React.JSX.Element => {
   const { number } = useParams();
   const dispatch = useDispatch();
 
-  const orderData = useSelector((state) => state.order.orderDetails);
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const orderData = useSelector(selectOrderDetails);
+  const ingredients = useSelector(selectIngredients);
 
   useEffect(() => {
     if (number) {

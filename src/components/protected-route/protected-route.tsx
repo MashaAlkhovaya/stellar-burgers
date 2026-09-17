@@ -1,3 +1,4 @@
+import { selectIsAuthenticated } from '@selectors';
 import { useSelector } from '@services';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ export const ProtectedRoute = ({
   children,
   onlyUnAuth,
 }: ProtectedRouteProps): React.JSX.Element => {
-  const isAuthenticated = useSelector((state) => Boolean(state.auth.user));
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const location = useLocation();
 
   if (!onlyUnAuth && !isAuthenticated) {

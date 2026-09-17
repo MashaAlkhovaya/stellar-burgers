@@ -1,3 +1,4 @@
+import { selectAuthError } from '@selectors';
 import { useDispatch, useSelector } from '@services';
 import { registerUser } from '@slices';
 import { RegisterUI } from '@ui-pages';
@@ -8,7 +9,7 @@ export const Register = (): React.JSX.Element => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const errorText = useSelector((state) => state.auth.error?.message ?? '');
+  const errorText = useSelector(selectAuthError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();

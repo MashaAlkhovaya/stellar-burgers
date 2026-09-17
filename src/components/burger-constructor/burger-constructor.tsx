@@ -1,3 +1,9 @@
+import {
+  selectConstructorItems,
+  selectIsAuthenticated,
+  selectOrderModalData,
+  selectOrderRequest,
+} from '@selectors';
 import { useSelector, useDispatch } from '@services';
 import { createOrder, clearOrder, clearConstructor } from '@slices';
 import { BurgerConstructorUI } from '@ui';
@@ -7,10 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import type { TConstructorIngredient } from '@utils-types';
 
 export const BurgerConstructor = (): React.JSX.Element | null => {
-  const constructorItems = useSelector((state) => state.burgerConstructor);
-  const orderRequest = useSelector((state) => state.order.orderRequest);
-  const orderModalData = useSelector((state) => state.order.orderModalData);
-  const isAuthenticated = useSelector((state) => Boolean(state.auth.user));
+  const constructorItems = useSelector(selectConstructorItems);
+  const orderRequest = useSelector(selectOrderRequest);
+  const orderModalData = useSelector(selectOrderModalData);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

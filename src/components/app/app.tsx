@@ -16,6 +16,11 @@ import {
   ProfileOrders,
   NotFound404,
 } from '@pages';
+import {
+  selectIngredientsError,
+  selectIngredientsLoading,
+  selectIsAuthChecked,
+} from '@selectors';
 import { useDispatch, useSelector } from '@services';
 import { fetchIngredients, checkUserAuth } from '@slices';
 import { Preloader } from '@ui';
@@ -35,9 +40,9 @@ import '../../index.css';
 import styles from './app.module.css';
 
 const App = (): React.JSX.Element => {
-  const isIngredientsLoading = useSelector((state) => state.ingredients.isLoading);
-  const ingredientsError = useSelector((state) => state.ingredients.error);
-  const isAuthChecked = useSelector((state) => state.auth.isAuthChecked);
+  const isIngredientsLoading = useSelector(selectIngredientsLoading);
+  const ingredientsError = useSelector(selectIngredientsError);
+  const isAuthChecked = useSelector(selectIsAuthChecked);
 
   const dispatch = useDispatch();
 

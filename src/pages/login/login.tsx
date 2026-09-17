@@ -1,3 +1,4 @@
+import { selectAuthError } from '@selectors';
 import { useDispatch, useSelector } from '@services';
 import { loginUser } from '@slices';
 import { LoginUI } from '@ui-pages';
@@ -7,7 +8,7 @@ import { useNavigate, useLocation, type Location } from 'react-router-dom';
 export const Login = (): React.JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const errorText = useSelector((state) => state.auth.error?.message ?? '');
+  const errorText = useSelector(selectAuthError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
