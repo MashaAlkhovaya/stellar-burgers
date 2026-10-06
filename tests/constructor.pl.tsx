@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const orderHar = JSON.parse(readFileSync('tests/hars/order.har', 'utf-8'));
+const orderBody = JSON.parse(orderHar.log.entries[0].response.content.text);
+const ORDER_NUMBER = String(orderBody.order.number);
 
 test.describe('добавление ингредиентов в конструктор', function () {
   test.beforeEach(async ({ page }) => {
@@ -44,33 +49,35 @@ test.describe('модальное окно ингредиента', function () 
     const card = page.locator('li', { hasText: 'Краторная булка N-200i' });
     await card.getByRole('link').click();
 
+    const modal = page.getByTestId('modal');
+
     await expect(
-      page.getByRole('heading', { name: 'Краторная булка N-200i' })
+      modal.getByRole('heading', { name: 'Краторная булка N-200i' })
     ).toBeVisible();
-    await expect(page.locator('li', { hasText: 'Калории, ккал' })).toContainText('420');
+    await expect(modal.locator('li', { hasText: 'Калории, ккал' })).toContainText('420');
   });
   test('закрывается по клику на крестик', async ({ page }) => {
     const card = page.locator('li', { hasText: 'Краторная булка N-200i' });
     await card.getByRole('link').click();
 
-    const modalTitle = page.getByRole('heading', { name: 'Краторная булка N-200i' });
-    await expect(modalTitle).toBeVisible();
+    const modal = page.getByTestId('modal');
+    await expect(modal).toBeVisible();
 
-    await page.getByRole('button', { name: 'Закрыть' }).click();
+    await modal.getByRole('button', { name: 'Закрыть' }).click();
 
-    await expect(modalTitle).toBeHidden();
+    await expect(modal).toBeHidden();
   });
 
   test('закрывается по клику на оверлей', async ({ page }) => {
     const card = page.locator('li', { hasText: 'Краторная булка N-200i' });
     await card.getByRole('link').click();
 
-    const modalTitle = page.getByRole('heading', { name: 'Краторная булка N-200i' });
-    await expect(modalTitle).toBeVisible();
+    const modal = page.getByTestId('modal');
+    await expect(modal).toBeVisible();
 
     await page.getByTestId('modal-overlay').click({ position: { x: 10, y: 10 } });
 
-    await expect(modalTitle).toBeHidden();
+    await expect(modal).toBeHidden();
   });
 });
 
@@ -106,12 +113,12 @@ test.describe('оформление заказа', function () {
 
     await page.getByRole('button', { name: 'Оформить заказ' }).click();
 
-    await expect(page.getByTestId('order-number')).toHaveText('12345');
+    await expect(page.getByTestId('order-number')).toHaveText(ORDER_NUMBER);
 
     await expect(page.getByTestId('constructor-bun-1')).toHaveCount(0);
     await expect(page.getByTestId('constructor-bun-2')).toHaveCount(0);
-    await expect(page.getByTestId('constructor-ingredients')).not.toContainText(
-      'Филе Люминесцентного тетраодонтимформа'
+    await expect(page.getByTestId('constructor-ingredients')).toHaveText(
+      'Выберите начинку'
     );
 
     await page.getByRole('button', { name: 'Закрыть' }).click();
